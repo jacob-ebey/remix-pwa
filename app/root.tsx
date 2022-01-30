@@ -19,7 +19,7 @@ import themeStylesHref from "awsm.css/dist/awsm_theme_mischka.min.css";
 
 export const meta: MetaFunction = () => {
   return {
-    title: "New Remix App",
+    title: "Remix PWA",
     description: "An example PWA built with Remix.",
   };
 };
