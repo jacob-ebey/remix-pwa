@@ -2,18 +2,16 @@
 
 import { json } from "@remix-run/server-runtime";
 
-import config from "../remix.config";
-
 export type {};
 declare const self: ServiceWorkerGlobalScope;
 
 function debug(...messages: any[]) {
-  // if (process.env.NODE_ENV === "development") {
-  console.debug(...messages);
-  // }
+  if (process.env.NODE_ENV === "development") {
+    console.debug(...messages);
+  }
 }
 
-let STATIC_ASSETS = [config.publicPath || "/build/", "/icons/"];
+let STATIC_ASSETS = ["/build/", "/icons/"];
 
 const ASSET_CACHE = "asset-cache";
 const DATA_CACHE = "data-cache";
