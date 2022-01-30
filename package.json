@@ -17,6 +17,7 @@
   "dependencies": {
     "@remix-run/react": "^1.1.3",
     "@remix-run/serve": "^1.1.3",
+    "awsm.css": "^3.0.7",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "remix": "^1.1.3"

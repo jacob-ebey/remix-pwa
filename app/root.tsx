@@ -14,6 +14,9 @@ import {
 } from "remix";
 import type { MetaFunction } from "remix";
 
+import mainStylesHref from "awsm.css/dist/awsm.min.css";
+import themeStylesHref from "awsm.css/dist/awsm_theme_mischka.min.css";
+
 export const meta: MetaFunction = () => {
   return { title: "New Remix App" };
 };
@@ -106,14 +109,8 @@ function Document({ children }: { children: ReactNode }) {
         <meta name="viewport" content="width=device-width,initial-scale=1" />
         <meta name="theme-color" content="#000000" />
         <Meta />
-        <link
-          rel="stylesheet"
-          href="https://unpkg.com/awsm.css/dist/awsm.min.css"
-        />
-        <link
-          rel="stylesheet"
-          href="https://unpkg.com/awsm.css/dist/awsm_theme_mischka.min.css"
-        />
+        <link rel="stylesheet" href={mainStylesHref} />
+        <link rel="stylesheet" href={themeStylesHref} />
 
         <link rel="manifest" href="/resources/manifest.json" />
         <link
