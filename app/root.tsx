@@ -18,7 +18,10 @@ import mainStylesHref from "awsm.css/dist/awsm.min.css";
 import themeStylesHref from "awsm.css/dist/awsm_theme_mischka.min.css";
 
 export const meta: MetaFunction = () => {
-  return { title: "New Remix App" };
+  return {
+    title: "New Remix App",
+    description: "An example PWA built with Remix.",
+  };
 };
 
 export default function RootRoute() {
