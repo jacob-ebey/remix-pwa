@@ -195,6 +195,15 @@ function Document({ children }: { children: ReactNode }) {
               <li>
                 <Link to="/about">About</Link>
               </li>
+              <li>
+                <a
+                  href="https://github.com/jacob-ebey/remix-pwa"
+                  target="_blank"
+                  rel="noreferrer noopener"
+                >
+                  Source
+                </a>
+              </li>
             </ul>
           </nav>
         </header>
