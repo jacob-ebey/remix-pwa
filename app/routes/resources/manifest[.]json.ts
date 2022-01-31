@@ -8,8 +8,8 @@ export let loader: LoaderFunction = () => {
       name: "Remix TODO",
       start_url: "/",
       display: "standalone",
-      background_color: "#000000",
-      theme_color: "#000000",
+      background_color: "#d3d7dd",
+      theme_color: "#c34138",
       icons: [
         {
           src: "/icons/android-icon-36x36.png",
