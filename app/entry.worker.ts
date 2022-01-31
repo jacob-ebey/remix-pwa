@@ -115,7 +115,10 @@ async function handleFetch(event: FetchEvent): Promise<Response> {
 
       return json(
         { message: "Network Error" },
-        { status: 500, headers: { "X-Remix-Catch": "yes" } }
+        {
+          status: 500,
+          headers: { "X-Remix-Catch": "yes", "X-Remix-Worker": "yes" },
+        }
       );
     }
   }
