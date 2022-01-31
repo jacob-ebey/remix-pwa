@@ -3,19 +3,19 @@
 import { json } from "@remix-run/server-runtime";
 
 export type {};
-declare const self: ServiceWorkerGlobalScope;
+declare let self: ServiceWorkerGlobalScope;
+
+let STATIC_ASSETS = ["/build/", "/icons/"];
+
+let ASSET_CACHE = "asset-cache";
+let DATA_CACHE = "data-cache";
+let DOCUMENT_CACHE = "document-cache";
 
 function debug(...messages: any[]) {
   if (process.env.NODE_ENV === "development") {
     console.debug(...messages);
   }
 }
-
-let STATIC_ASSETS = ["/build/", "/icons/"];
-
-const ASSET_CACHE = "asset-cache";
-const DATA_CACHE = "data-cache";
-const DOCUMENT_CACHE = "document-cache";
 
 async function handleInstall(event: ExtendableEvent) {
   debug("Service worker installed");
@@ -75,6 +75,7 @@ async function handleMessage(event: ExtendableMessageEvent) {
 
 async function handleFetch(event: FetchEvent): Promise<Response> {
   let url = new URL(event.request.url);
+
   if (isAssetRequest(event.request)) {
     let cached = await caches.match(event.request, {
       cacheName: ASSET_CACHE,
@@ -95,7 +96,7 @@ async function handleFetch(event: FetchEvent): Promise<Response> {
     return response;
   }
 
-  if (isDataRequest(event.request)) {
+  if (isLoaderRequest(event.request)) {
     try {
       debug("Serving data from network", url.pathname + url.search);
       let response = await fetch(event.request);
@@ -119,7 +120,7 @@ async function handleFetch(event: FetchEvent): Promise<Response> {
     }
   }
 
-  if (isDocumentRequest(event.request)) {
+  if (isDocumentGetRequest(event.request)) {
     try {
       debug("Serving document from network", url.pathname);
       let response = await fetch(event.request);
@@ -153,13 +154,13 @@ function isAssetRequest(request: Request) {
   );
 }
 
-function isDataRequest(request: Request) {
+function isLoaderRequest(request: Request) {
   let url = new URL(request.url);
   return isMethod(request, ["get"]) && url.searchParams.get("_data");
 }
 
-function isDocumentRequest(request: Request) {
-  return request.mode === "navigate" && isMethod(request, ["get"]);
+function isDocumentGetRequest(request: Request) {
+  return isMethod(request, ["get"]) && request.mode === "navigate";
 }
 
 self.addEventListener("install", (event) => {
