@@ -99,7 +99,7 @@ async function handleFetch(event: FetchEvent): Promise<Response> {
   if (isLoaderRequest(event.request)) {
     try {
       debug("Serving data from network", url.pathname + url.search);
-      let response = await fetch(event.request);
+      let response = await fetch(event.request.clone());
       let cache = await caches.open(DATA_CACHE);
       await cache.put(event.request, response.clone());
       return response;
@@ -143,7 +143,7 @@ async function handleFetch(event: FetchEvent): Promise<Response> {
     }
   }
 
-  return fetch(event.request);
+  return fetch(event.request.clone());
 }
 
 function isMethod(request: Request, methods: string[]) {
@@ -179,5 +179,14 @@ self.addEventListener("message", (event) => {
 });
 
 self.addEventListener("fetch", (event) => {
-  event.respondWith(handleFetch(event));
+  event.respondWith(
+    handleFetch(event).then((response) => appHandleFetch(event, response))
+  );
 });
+
+async function appHandleFetch(
+  event: FetchEvent,
+  response: Response
+): Promise<Response> {
+  return response;
+}
