@@ -110,6 +110,7 @@ async function handleFetch(event: FetchEvent): Promise<Response> {
       );
       let response = await caches.match(event.request);
       if (response) {
+        response.headers.set("X-Remix-Worker", "yes");
         return response;
       }
 
@@ -180,13 +181,29 @@ self.addEventListener("message", (event) => {
 
 self.addEventListener("fetch", (event) => {
   event.respondWith(
-    handleFetch(event).then((response) => appHandleFetch(event, response))
+    (async () => {
+      let result = {} as
+        | { error: unknown; response: undefined }
+        | { error: undefined; response: Response };
+      try {
+        result.response = await handleFetch(event);
+      } catch (error) {
+        result.error = error;
+      }
+
+      return appHandleFetch(event, result);
+    })()
   );
 });
 
 async function appHandleFetch(
   event: FetchEvent,
-  response: Response
+  {
+    error,
+    response,
+  }:
+    | { error: unknown; response: undefined }
+    | { error: undefined; response: Response }
 ): Promise<Response> {
   return response;
 }
